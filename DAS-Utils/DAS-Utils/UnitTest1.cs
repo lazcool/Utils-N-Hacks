@@ -30,6 +30,11 @@ namespace DAS_Utils
 
             //var sinceEventId = 1747413 - 1;
 
+            //try azure db with and withoug mars
+            //do web sites write to datalockstatus?
+            //point to live? nah, db set up pain
+            //recheck logs for exceptions - search by apprenticeshipid? when error occured?
+
             //could bring in SelectManyAsync
             //var datalockEvents = Data.SinceEventIds().SelectMany(async since => await client.GetDataLockEvents(since));
 
