@@ -1,7 +1,7 @@
 
 rem call uncloakconfig.bat
 
-mkdir c:\work\configs\das-commitements
+mkdir c:\work\configs\das-commitments
 
 mkdir c:\work\configs\das-commitments\SFA.DAS.Commitments.AddEpaToApprenticeships.WebJob
 mkdir c:\work\configs\das-commitments\SFA.DAS.CommitmentPayments.WebJob
