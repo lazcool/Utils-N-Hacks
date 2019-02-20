@@ -1,0 +1,33 @@
+{
+	"name": "SourceDataset_y5t",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "EmployerAccount",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"structure": [
+			{
+				"name": "Id",
+				"type": "Int64"
+			},
+			{
+				"name": "HashedId",
+				"type": "String"
+			},
+			{
+				"name": "Name",
+				"type": "String"
+			},
+			{
+				"name": "PublicHashedId",
+				"type": "String"
+			},
+			{
+				"name": "Created",
+				"type": "DateTime"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,58 @@
+{
+	"name": "CopyAccounts",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_y5t",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Destination",
+						"value": "[dbo].[Accounts]"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "SqlSource",
+						"sqlReaderQuery": "select Id, HashedId, Name, PublicHashedId, CURRENT_TIMESTAMP as Created from [employer_account].[Account]"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"Id": "Id",
+							"HashedId": "HashedId",
+							"PublicHashedId": "PublicHashedId",
+							"Name": "Name",
+							"Created": "Created"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_y5t",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_y5t",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,355 @@
+{
+	"name": "CopyAccount",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_fh4",
+				"type": "ForEach",
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_fh4",
+							"type": "Copy",
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "@{item().source.tableName}"
+								},
+								{
+									"name": "Destination",
+									"value": "@{item().destination.tableName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlSource"
+								},
+								"sink": {
+									"type": "SqlSink",
+									"writeBatchSize": 10000
+								},
+								"enableStaging": false,
+								"translator": {
+									"value": "@item().copyActivity.translator",
+									"type": "Expression"
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_fh4",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_structure": "@item().source.structure",
+										"cw_tableName": "@item().source.tableName"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_fh4",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_structure": "@item().destination.structure",
+										"cw_tableName": "@item().destination.tableName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int64"
+								},
+								{
+									"name": "HashedId",
+									"type": "String"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								},
+								{
+									"name": "CreatedDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "ModifiedDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "PublicHashedId",
+									"type": "String"
+								}
+							],
+							"tableName": "[employer_account].[Account]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int64"
+								},
+								{
+									"name": "HashedId",
+									"type": "String"
+								},
+								{
+									"name": "PublicHashedId",
+									"type": "String"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								},
+								{
+									"name": "Created",
+									"type": "DateTime"
+								},
+								{
+									"name": "Updated",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[dbo].[Accounts]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"HashedId": "HashedId",
+									"PublicHashedId": "PublicHashedId",
+									"Name": "Name",
+									"CreatedDate": "Created",
+									"ModifiedDate": "Updated"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int64"
+								},
+								{
+									"name": "AccountId",
+									"type": "Int64"
+								},
+								{
+									"name": "PayeRef",
+									"type": "String"
+								},
+								{
+									"name": "AddedDate",
+									"type": "DateTime"
+								},
+								{
+									"name": "RemovedDate",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[employer_account].[AccountHistory]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "AccountId",
+									"type": "Int64"
+								},
+								{
+									"name": "EmployerReferenceNumber",
+									"type": "String"
+								},
+								{
+									"name": "Created",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[dbo].[AccountPayeSchemes]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"AccountId": "AccountId",
+									"PayeRef": "EmployerReferenceNumber",
+									"AddedDate": "Created"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int64"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								},
+								{
+									"name": "Address",
+									"type": "String"
+								},
+								{
+									"name": "AccountId",
+									"type": "Int64"
+								},
+								{
+									"name": "LegalEntityId",
+									"type": "Int64"
+								},
+								{
+									"name": "Created",
+									"type": "DateTime"
+								},
+								{
+									"name": "Modified",
+									"type": "DateTime"
+								},
+								{
+									"name": "SignedAgreementVersion",
+									"type": "Int32"
+								},
+								{
+									"name": "SignedAgreementId",
+									"type": "Int64"
+								},
+								{
+									"name": "PendingAgreementVersion",
+									"type": "Int32"
+								},
+								{
+									"name": "PendingAgreementId",
+									"type": "Int64"
+								},
+								{
+									"name": "PublicHashedId",
+									"type": "String"
+								},
+								{
+									"name": "Deleted",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[employer_account].[AccountLegalEntity]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "Id",
+									"type": "Int64"
+								},
+								{
+									"name": "PublicHashedId",
+									"type": "String"
+								},
+								{
+									"name": "AccountId",
+									"type": "Int64"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								},
+								{
+									"name": "Created",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[dbo].[AccountLegalEntities]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Id": "Id",
+									"PublicHashedId": "PublicHashedId",
+									"AccountId": "AccountId",
+									"Name": "Name",
+									"Created": "Created"
+								}
+							}
+						}
+					},
+					{
+						"source": {
+							"structure": [
+								{
+									"name": "Ref",
+									"type": "String"
+								},
+								{
+									"name": "AccessToken",
+									"type": "String"
+								},
+								{
+									"name": "RefreshToken",
+									"type": "String"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								}
+							],
+							"tableName": "[employer_account].[Paye]"
+						},
+						"destination": {
+							"structure": [
+								{
+									"name": "EmployerReferenceNumber",
+									"type": "String"
+								},
+								{
+									"name": "Name",
+									"type": "String"
+								},
+								{
+									"name": "Created",
+									"type": "DateTime"
+								}
+							],
+							"tableName": "[dbo].[PayeSchemes]"
+						},
+						"copyActivity": {
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"Ref": "EmployerReferenceNumber",
+									"Name": "Name",
+									"AccessToken": "Created"
+								}
+							}
+						}
+					}
+				]
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
